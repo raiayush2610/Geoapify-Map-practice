@@ -1,11 +1,12 @@
 import React from 'react'
 
-const CityCard = ({options, setLocation}) => {
+const CityCard = ({options, setLocation, setPlaces}) => {
     const searchInterest = async () => {
         setLocation([options.lat, options.lon])
-        const data = await fetch(`https://api.geoapify.com/v2/places?categories=tourism&filter=place:${props.place_id}&limit=20&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`)
+        const data = await fetch(`https://api.geoapify.com/v2/places?categories=tourism&filter=place:${options.place_id}&limit=20&apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`)
         const res = await data.json()
-        console.log(res);
+        // console.log(res.features);
+        setPlaces(res.features.map(place => ([place.properties.lat, place.properties.lon])))
     }
 
     return (

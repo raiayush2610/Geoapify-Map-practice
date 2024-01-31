@@ -4,7 +4,7 @@ import CityCard from './CityCard'
 // style
 import './SearchCity.css'
 
-const SearchCity = ({setLocation}) => {
+const SearchCity = ({setLocation, setPlaces}) => {
     const [inputValue, setInputValue] = useState('')
     const [city, setCity] = useState([])
 
@@ -21,7 +21,7 @@ const SearchCity = ({setLocation}) => {
     const handleSubmit = async () => {
         const data = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${inputValue}&apiKey=${Key}`)
         const res = await data.json()
-
+        console.log(res);
         setCity(res.features)
     }
 
@@ -62,6 +62,7 @@ const SearchCity = ({setLocation}) => {
                                     options={city.properties} 
                                     key={index} 
                                     setLocation={(position) => setLocation(position)}
+                                    setPlaces={(places) => setPlaces(places)}
                                 />
                             ))}
                         </div>

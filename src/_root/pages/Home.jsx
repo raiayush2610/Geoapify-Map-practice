@@ -8,12 +8,14 @@ import "leaflet/dist/leaflet.css";
 // components
 import MyLocation from '../../components/MyLocation';
 import SearchCity from '../../components/SearchCity';
+import MultiMarkers from '../../components/MultiMarkers';
 
 const Home = () => {
     const [location, setLocation] = useState([51.505, -0.09])
+    const [places, setPlaces] = useState([])
 
     // geoapify url for leaflet map
-    // const geoapifyUrl = `https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`;
+    const geoapifyUrl = `https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${import.meta.env.VITE_GEOAPIFY_KEY}`;
 
     // serach my location
     const handleSearch = () => {
@@ -28,12 +30,19 @@ const Home = () => {
                 <MapContainer center={location} zoom={5} style={{ width: "400px", height: "400px" }}>
                     <TileLayer
                         attribution='&copy; Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | © OpenStreetMap <a href="https://www.openstreetmap.org/copyright" target="_blank">contributors</a>'
-                        // url={geoapifyUrl}
-                        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        url={geoapifyUrl}
+                        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                     />
-                    <MyLocation
-                        position={location}
-                    />
+                    {/* {!places || places.length === 0 ? ( */}
+                        <MyLocation
+                            position={location}
+                        />
+
+                    {/* // ) : ( */}
+                        <MultiMarkers
+                            places={places}
+                        />
+                    {/* )} */}
                 </MapContainer>
 
                 <div
@@ -47,6 +56,7 @@ const Home = () => {
                     <SearchCity
                         className=''
                         setLocation={(position) => setLocation(position)}
+                        setPlaces={(places) => setPlaces(places)}
                     />
                 </div>
             </div>
